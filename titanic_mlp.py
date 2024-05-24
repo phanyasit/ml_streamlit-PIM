@@ -13,12 +13,13 @@ class Classifier(nn.Module):
         return torch.sigmoid(self.fc2(x))
 
 model = Classifier()
-model.load_state_dict(torch.load('model_titanic'))
+model.load_state_dict(torch.load('model_titanic.pth'))
 model.eval()
 
 st.title('Titanic Dataset')
 st.sidebar.title('Input Parameters')
-x = np.array([0.] * 4)
+x = np.array([0.] * 11)
+
 for i, col in enumerate(['survived', 'pclass', 'age', 'sibsp', 'parch', 'fare', 'sex_male',
        'embarked_C', 'embarked_Q', 'embarked_S', 'who_child', 'who_man',
        'who_woman']):
@@ -28,3 +29,19 @@ labels = ['รอด', 'ไม่รอด']
 with torch.no_grad():
     y_ = model(torch.tensor([x], dtype=torch.float32))
 st.write('Predicted class:', labels[y_.argmax(dim=1)[0]])
+
+
+
+
+# st.title("Titanic Survivor Predictor")
+#
+# age = st.slider("Age", 0, 100, 1)
+# print(age)
+#
+# option = st.selectbox(
+#    "Sex",
+#    ("Male", "Female"),
+#    index=None,
+#    placeholder="กรุณาเลือกเพศ",
+# )
+# st.write('เพศของท่านคือ :', option)
